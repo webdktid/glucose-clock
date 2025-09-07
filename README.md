@@ -38,6 +38,10 @@ The application features a clean, minimalist interface with:
 - Digital clock at the bottom
 - Control buttons for testing alarms, manual updates, muting, and exit
 
+<img width="800" height="500" alt="From-pc" src="https://github.com/user-attachments/assets/fabad5ea-5ae4-4aeb-a8f7-a8833efabfe8" />
+<img width="800" height="500" alt="from-pi" src="https://github.com/user-attachments/assets/d776060e-967c-4177-bbeb-6a68a1d7e092" />
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -171,3 +175,4 @@ This application is not a medical device and should not be used as the primary m
 ## 📧 Support
 
 For issues, questions, or suggestions, please [open an issue](https://github.com/webdktid/glucose-clock/issues) on GitHub.
+
