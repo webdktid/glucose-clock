@@ -142,6 +142,7 @@ class DigitalClock:
         # self._update_theme()
         self._initialize_variables()
         self._setup_audio()
+        self._setup_brightness()
 
         # Use global canvas instead of creating new one
         global canvas, canvas_size
@@ -301,6 +302,68 @@ class DigitalClock:
         
         # Focus window
         self.root.focus_set()
+
+    def _setup_brightness(self):
+        """Setup brightness control for Raspberry Pi."""
+        self.current_brightness = 1.0
+        self.brightness_path = "/sys/class/backlight/rpi_backlight/brightness"
+        self.max_brightness_path = "/sys/class/backlight/rpi_backlight/max_brightness"
+        
+        # Try to read max brightness
+        try:
+            with open(self.max_brightness_path, 'r') as f:
+                self.max_brightness = int(f.read().strip())
+                print(f"Max brightness: {self.max_brightness}")
+        except:
+            # Default for official 7" touchscreen
+            self.max_brightness = 255
+            print(f"Using default max brightness: {self.max_brightness}")
+        
+        self._update_brightness()
+
+    def _is_night_time(self):
+        """Check if current time is within night period for dimming."""
+        now = datetime.now()
+        current_time = now.hour * 60 + now.minute
+        
+        # Check if we're in the night period (after 22:30 or before 07:00)
+        return current_time >= settings.DIM_START_TIME or current_time < settings.DIM_END_TIME
+
+    def _set_backlight_brightness(self, brightness_percent):
+        """Set the backlight brightness on Raspberry Pi."""
+        try:
+            # Calculate actual brightness value
+            brightness_value = int(self.max_brightness * brightness_percent)
+            brightness_value = max(1, brightness_value)  # Ensure minimum brightness of 1
+            
+            # Write to backlight control
+            with open(self.brightness_path, 'w') as f:
+                f.write(str(brightness_value))
+            return True
+        except PermissionError:
+            print("Permission denied: Run with sudo or add user to video group")
+            print("Run: sudo usermod -a -G video $USER")
+            return False
+        except FileNotFoundError:
+            print(f"Backlight control not found at {self.brightness_path}")
+            return False
+        except Exception as e:
+            print(f"Error setting brightness: {e}")
+            return False
+
+    def _update_brightness(self):
+        """Update screen brightness based on time of day."""
+        target_brightness = settings.BRIGHTNESS_NIGHT if self._is_night_time() else settings.BRIGHTNESS_DAY
+        
+        if self.current_brightness != target_brightness:
+            self.current_brightness = target_brightness
+            
+            # Set backlight brightness on Pi
+            if self._set_backlight_brightness(self.current_brightness):
+                print(f"Brightness adjusted to {int(self.current_brightness * 100)}%")
+        
+        # Check brightness every minute
+        self.root.after(60000, self._update_brightness)
 
     def _setup_audio(self):
 
@@ -562,6 +625,7 @@ class DigitalClock:
         self._update_countdown()
         self._update_mute_button()
         self._check_alarms()
+        self._update_brightness()
 
     def _update_clock(self):
         """Update elegant digital clock display."""

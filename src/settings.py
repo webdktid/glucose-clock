@@ -19,6 +19,12 @@ class settings:
     # Alarm time window (22:30 - 07:00)
     ALARM_START_TIME = 22 * 60 + 30  # 22:30 in minutes
     ALARM_END_TIME = 7 * 60          # 07:00 in minutes
+    
+    # Brightness settings
+    BRIGHTNESS_DAY = 1.0        # 100% brightness during day
+    BRIGHTNESS_NIGHT = 0.1      # 10% brightness at night
+    DIM_START_TIME = 22 * 60 + 30  # Start dimming at 22:30
+    DIM_END_TIME = 7 * 60          # End dimming at 07:00
 
     # Visual settings
     WINDOW_SIZE = "800x480"         # Example window size
@@ -38,7 +44,7 @@ class settings:
         'button_muted': '#606000',
         
         'text_primary': "white",
-        'text_secondary': "#404040",  # Gray for secondary text        
+        'text_secondary': "#808080",  # Gray for secondary text        
         'background': "#000000",
         'clock': "#F0F0D0",
 
