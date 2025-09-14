@@ -4,7 +4,7 @@ A real-time continuous glucose monitoring display with digital clock, designed f
 
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20Raspberry%20Pi-green)
-![License](https://img.shields.io/badge/license-MIT-blue)
+![License](https://img.shields.io/badge/license-Custom-blue)
 
 ## 🌟 Features
 
@@ -160,7 +160,12 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a Custom License that allows free personal use but requires permission for commercial use - see the [LICENSE](LICENSE) file for full details.
+
+**Summary:**
+- ✅ **Personal use**: Free for private, non-commercial use
+- ❌ **Commercial use**: Requires explicit written permission
+- 💝 **Donations**: Appreciated but not required for personal use
 
 ## ⚠️ Disclaimer
 
@@ -171,6 +176,36 @@ This application is not a medical device and should not be used as the primary m
 - Dexcom for providing the Share API
 - The pydexcom library maintainers
 - The open-source community
+
+## 🛠️ Hardware Build Guide
+
+If you want to build your own dedicated glucose monitoring device, you'll need the following hardware components (prices from raspberrypi.dk):
+
+### Required Components (~1,535 DKK total)
+- **Raspberry Pi 4 Model B – 2 GB** (399 DKK)
+- **15W USB-C power supply** (89 DKK)
+- **Official Pi 7" touch display** (599 DKK)
+- **SmartPi Touch Pro case for display** (349 DKK)
+- **32GB SD card with Raspberry Pi OS** (99 DKK)
+
+### Build Service Available
+If you need help building the system, I offer assembly services:
+- **Cost**: 500 DKK + 50 DKK shipping
+- **Includes**: Complete setup and configuration
+- **Note**: This gets you up and running but doesn't include lifetime support
+- Basic maintenance (like updating Dexcom passwords in config) is your responsibility
+
+## 💝 Support This Project
+
+If you use this software for private use and it makes your nights a little better, please consider sending a donation. Any amount shows me that you care and helps maintain this project.
+
+## 📋 Usage Terms
+
+### Private Use
+This software is freely available for personal, private use. If it helps improve your glucose monitoring experience, I'm happy to have contributed to better nights!
+
+### Commercial Use
+Commercial use is **not permitted** without explicit agreement. If you're interested in commercial applications, please contact me first so we can discuss appropriate licensing terms.
 
 ## 📧 Support
 
