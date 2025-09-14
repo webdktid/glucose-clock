@@ -1,4 +1,4 @@
-# GlucoClock
+m# GlucoClock
 
 A real-time continuous glucose monitoring display with digital clock, designed for Raspberry Pi and desktop use. Perfect for bedside monitoring with automatic alarms for out-of-range glucose levels.
 
@@ -197,7 +197,7 @@ If you need help building the system, I offer assembly services:
 
 ## 💝 Support This Project
 
-If you use this software for private use and it makes your nights a little better, please consider sending a donation. Any amount shows me that you care and helps maintain this project.
+If you use this software for private use and it makes your nights a little better, please consider sending a donation. Any amount shows me that you care and helps maintain this project. Mobilepay +45 60 39 49 00
 
 ## 📋 Usage Terms
 
