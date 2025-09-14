@@ -440,8 +440,14 @@ class DigitalClock:
         self.mute_button.pack(side=tk.LEFT, padx=(0, 10))
         
         # Exit button
+        self.fullscreen_button = self._create_modern_button(
+            right_frame, " ⛶ ", self._toggle_fullscreen,
+             settings.COLORS['button'], 10
+        )
+        self.fullscreen_button.pack(side=tk.LEFT, padx=(0, 10))
+
         self.exit_button = self._create_modern_button(
-            right_frame, "✕ Exit", self._exit_app, 
+            right_frame, " ✕ ", self._exit_app,
              settings.COLORS['button'], 10
         )
         self.exit_button.pack(side=tk.LEFT)
