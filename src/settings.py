@@ -12,9 +12,9 @@ class settings:
     HIGH_GLUCOSE_THRESHOLD = 10.0
 
     # Audio configuration
-    LOW_TONE_FREQ = 200    # Hz for deep tone (low glucose)
+    LOW_TONE_FREQ = 500    # Hz for deep tone (low glucose)
     HIGH_TONE_FREQ = 850  # Hz for high tone (high glucose)
-    TONE_DURATION = 3    # seconds
+    TONE_DURATION = 2    # seconds
 
     # Alarm time window (22:30 - 07:00)
     ALARM_START_TIME = 22 * 60 + 30  # 22:30 in minutes
@@ -51,7 +51,11 @@ class settings:
         'gloucose_low': "#ff4444",   # Red for low glucose'
         'gloucose_normal': "green",   # Green for normal glucose
         'gloucose_high': "#ff8800",  # Orange for high glucose
-    }
+    
+        'gloucose_low_text': "black",   
+        'gloucose_normal_text': "white",   
+        'gloucose_high_text': "black",  # 
+}
 
     # Dexcom configuration settings (placeholder values)
     DEXCOM_CONFIG = {

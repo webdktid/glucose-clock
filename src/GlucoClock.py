@@ -24,6 +24,15 @@ canvas.place(x=250, y=70)
 bloodSugar = 0 
 trend = 0  
 
+
+def get_glucose_text_color(value):
+   if value < settings.LOW_GLUCOSE_THRESHOLD:
+        return settings.COLORS['gloucose_low_text'] 
+   elif value < settings.HIGH_GLUCOSE_THRESHOLD:
+        return settings.COLORS['gloucose_normal_text']  
+   else:
+        return settings.COLORS['gloucose_high_text']  
+
 def get_glucose_color(value):
     if value < settings.LOW_GLUCOSE_THRESHOLD:
         return settings.COLORS['gloucose_low'] 
@@ -46,11 +55,13 @@ def draw_glucose_symbol(glucose_value=None, trend_value=None):
     
     center_x = canvas_size // 2  # 100
     center_y = canvas_size // 2  # 100
-    radius = 65  # Reduced slightly to give more space for the triangle
+    radius = 75  # Reduced slightly to give more space for the triangle
     
     # Get color based on blood sugar value
     fill_color = get_glucose_color(glucose_value)
-    
+    text_color = get_glucose_text_color(glucose_value)        
+
+
     # Draw gray border (lighter gray)
     canvas.create_oval(
         center_x - radius - 10, center_y - radius - 10,
@@ -69,8 +80,8 @@ def draw_glucose_symbol(glucose_value=None, trend_value=None):
     canvas.create_text(
         center_x, center_y - 5,
         text=f"{glucose_value:.1f}",
-        font=("Arial", 36, "bold"),
-        fill="black"
+        font=("Arial", 48, "bold"),
+        fill=text_color
     )
     
     # Draw mmol/L text
@@ -78,7 +89,7 @@ def draw_glucose_symbol(glucose_value=None, trend_value=None):
         center_x, center_y + 30,
         text="mmol/L",
         font=("Arial", 14),
-        fill="black"
+        fill=text_color
     )
     
     # Draw trend triangle - AFTER everything else so it's on top
@@ -186,13 +197,13 @@ class DigitalClock:
         
         # Initialize Dexcom connection
         self._init_dexcom()
-        self._update_glucose_async()
+
 
     def _create_glucose_info_label(self):
         """Create label for glucose info, countdown and connection status."""
         self.glucose_info_label = tk.Label(
             self.root,
-            text="Waiting for data...",
+            text="",
             font=('Arial', 14, 'normal'),
             bg=settings.COLORS['background'],
             fg=settings.COLORS['text_secondary']
@@ -396,7 +407,11 @@ class DigitalClock:
             self.countdown_seconds -= 1
         elif self.countdown_seconds == 0:
             self.countdown_label.config(text="Updating...")
-            
+            self._update_glucose();
+        
+        if self.reading_seconds_old > 300 and self.countdown_seconds > 30:
+            self.countdown_seconds  = 30 #
+    
         # Update every second
         self.root.after(1000, self._update_countdown)
 
@@ -556,16 +571,7 @@ class DigitalClock:
             # Retry sooner on error
             self.countdown_seconds = 30
     
-    def _update_glucose_async(self):
-        """Update glucose data asynchronously."""
-        def update_thread():
-            self._update_glucose()
-            # Schedule next update
-            self.root.after(settings.UPDATE_INTERVAL * 1000, self._update_glucose_async)
-        
-        # Run in separate thread to avoid blocking UI
-        thread = threading.Thread(target=update_thread, daemon=True)
-        thread.start()
+   
 
     def _is_alarm_time(self):
         """Check if current time is within alarm period (nighttime)."""
@@ -680,7 +686,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
