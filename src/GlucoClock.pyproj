@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="GlucoClock.py" />
     <Compile Include="settings.py" />
+    <Compile Include="settings_local.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

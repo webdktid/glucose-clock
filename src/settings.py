@@ -57,12 +57,18 @@ class settings:
         'gloucose_high_text': "black",  # 
 }
 
-    # Dexcom configuration settings (placeholder values)
+    # Dexcom configuration settings (default values)
     DEXCOM_CONFIG = {
-    'username': "<insert>",
-    'password': "<insert>",
-    'region': "ous"
+        'username': '<insert>',
+        'password': '<insert>',
+        'region': 'ous'
     }
+
+# Import local settings if they exist (not tracked by git)
+try:
+    import settings_local
+except ImportError:
+    pass  # No local settings - that's fine
 
 
   
