@@ -254,13 +254,13 @@ class DigitalClock:
         sample_rate = 22050
         samples = int(sample_rate * duration)
         waves = np.sin(2 * np.pi * frequency * np.arange(samples) / sample_rate)
-        
+
         # Convert to 16-bit
         waves = (waves * 32767).astype(np.int16)
-        
+
         # Create stereo signal
         stereo_waves = np.array([waves, waves]).T
-        
+
         # Create WAV file in memory
         wav_file = BytesIO()
         with wave.open(wav_file, 'wb') as wav:
@@ -268,7 +268,65 @@ class DigitalClock:
             wav.setsampwidth(2)
             wav.setframerate(sample_rate)
             wav.writeframes(stereo_waves.tobytes())
-        
+
+        wav_file.seek(0)
+        return pygame.mixer.Sound(wav_file)
+
+    def _generate_rising_tone(self, start_freq, end_freq, duration):
+        """Generate a rising tone from start_freq to end_freq over duration."""
+        sample_rate = 22050
+        samples = int(sample_rate * duration)
+        t = np.arange(samples) / sample_rate
+
+        # Linear frequency sweep from start_freq to end_freq
+        freq_sweep = start_freq + (end_freq - start_freq) * t / duration
+
+        # Generate wave with sweeping frequency
+        waves = np.sin(2 * np.pi * np.cumsum(freq_sweep) / sample_rate)
+
+        # Convert to 16-bit
+        waves = (waves * 32767).astype(np.int16)
+
+        # Create stereo signal
+        stereo_waves = np.array([waves, waves]).T
+
+        # Create WAV file in memory
+        wav_file = BytesIO()
+        with wave.open(wav_file, 'wb') as wav:
+            wav.setnchannels(2)
+            wav.setsampwidth(2)
+            wav.setframerate(sample_rate)
+            wav.writeframes(stereo_waves.tobytes())
+
+        wav_file.seek(0)
+        return pygame.mixer.Sound(wav_file)
+
+    def _generate_falling_tone(self, start_freq, end_freq, duration):
+        """Generate a falling tone from start_freq to end_freq over duration."""
+        sample_rate = 22050
+        samples = int(sample_rate * duration)
+        t = np.arange(samples) / sample_rate
+
+        # Linear frequency sweep from start_freq to end_freq
+        freq_sweep = start_freq + (end_freq - start_freq) * t / duration
+
+        # Generate wave with sweeping frequency
+        waves = np.sin(2 * np.pi * np.cumsum(freq_sweep) / sample_rate)
+
+        # Convert to 16-bit
+        waves = (waves * 32767).astype(np.int16)
+
+        # Create stereo signal
+        stereo_waves = np.array([waves, waves]).T
+
+        # Create WAV file in memory
+        wav_file = BytesIO()
+        with wave.open(wav_file, 'wb') as wav:
+            wav.setnchannels(2)
+            wav.setsampwidth(2)
+            wav.setframerate(sample_rate)
+            wav.writeframes(stereo_waves.tobytes())
+
         wav_file.seek(0)
         return pygame.mixer.Sound(wav_file)
 
@@ -391,8 +449,8 @@ class DigitalClock:
         print(f"ALSA PCM: {os.environ.get('ALSA_PCM_CARD', 'Not set')}")
         print(f"ALSA CTL: {os.environ.get('ALSA_CTL_CARD', 'Not set')}")
             
-        self.low_sound = self._generate_tone(settings.LOW_TONE_FREQ, settings.TONE_DURATION)
-        self.high_sound = self._generate_tone(settings.HIGH_TONE_FREQ, settings.TONE_DURATION)
+        self.low_sound = self._generate_falling_tone(settings.LOW_TONE_FREQ, settings.LOW_TONE_FREQ - 200, settings.TONE_DURATION)
+        self.high_sound = self._generate_rising_tone(settings.HIGH_TONE_FREQ, settings.HIGH_TONE_FREQ + 200, settings.TONE_DURATION)
             
         if self.low_sound and self.high_sound:
            print("Audio tones generated successfully")
@@ -644,7 +702,7 @@ class DigitalClock:
         now = datetime.now()
         
         # Update main time display
-        time_str = now.strftime('%H:%M:%S')
+        time_str = now.strftime('%H:%M')
         self.time_label.config(text=time_str)
         
         # Update individual components (for internal use)
